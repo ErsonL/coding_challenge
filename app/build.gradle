@@ -1,0 +1,64 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.wei.challenge.cartrack"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    // Enables data binding.
+    dataBinding {
+        enabled = true
+    }
+    androidExtensions {
+        experimental = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version_kotlin"
+    implementation "androidx.appcompat:appcompat:$version_appcompat"
+
+    // Android KTX
+    implementation "androidx.core:core-ktx:$version_core"
+
+    // Material UI
+    implementation "com.google.android.material:$version_material_design"
+    implementation "androidx.constraintlayout:constraintlayout:$version_constraint_layout"
+
+    // Room and Lifecycle dependencies
+    implementation "androidx.room:room-runtime:$version_room"
+    implementation "androidx.appcompat:appcompat:$version_appcompat"
+    kapt "androidx.room:room-compiler:$version_room"
+    implementation "androidx.lifecycle:lifecycle-extensions:$version_lifecycle_extensions"
+    implementation "androidx.room:room-rxjava2:$version_room"
+
+    // Testing
+    testImplementation "junit:junit:$version_junit"
+    testImplementation "androidx.room:room-testing:$version_room"
+
+    androidTestImplementation "androidx.test:runner:$version_androidx_test"
+    androidTestImplementation "androidx.test:rules:$version_androidx_test"
+    androidTestImplementation "androidx.test.ext:junit:$version_androidx_test_ext"
+    androidTestImplementation "androidx.test.ext:truth:$version_androidx_test_ext"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$version_androidx_test_ext"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espresso_version"
+
+
+
+}

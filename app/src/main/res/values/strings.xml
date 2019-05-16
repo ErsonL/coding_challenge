@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">CarTrack</string>
+
+
+
+    <string name="user_hint">User</string>
+    <string name="password_hint">Password</string>
+    <string name="log_in_label">Log In</string>
+    <string name="field_error">Field can\'t be empty</string>
+
+
+</resources>
