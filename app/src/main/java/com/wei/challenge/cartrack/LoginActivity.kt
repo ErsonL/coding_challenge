@@ -2,9 +2,14 @@ package com.wei.challenge.cartrack
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
+import com.wei.challenge.cartrack.db.Login
+import com.wei.challenge.cartrack.db.LoginDatabase
+import com.wei.challenge.cartrack.db.LoginDatabaseDao
+import com.wei.challenge.cartrack.utility.ioThread
 
 class LoginActivity : AppCompatActivity() {
 
@@ -12,9 +17,13 @@ class LoginActivity : AppCompatActivity() {
     private var textInputPassword: TextInputLayout? = null
     private var submitBtn: MaterialButton? = null
 
+    private lateinit var loginDao: LoginDatabaseDao
+
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        loginDao = LoginDatabase.getInstance(application).loginDatabaseDao
+
 
         textInputUsername = findViewById(R.id.user_input)
         textInputPassword = findViewById(R.id.password_input)
@@ -51,6 +60,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun confirmInput() {
+        var allLogin:List<Login>? = null
+        ioThread {
+            allLogin = loginDao.getAllLogin()
+            Log.d("CarTrack",allLogin?.get(0)?.name)
+        }
 
         if (!validateUsername() or !validatePassword()) {
             return

@@ -47,6 +47,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$version_lifecycle_extensions"
     implementation "androidx.room:room-rxjava2:$version_room"
 
+    implementation 'com.facebook.stetho:stetho:1.5.1'
     // Testing
     testImplementation "junit:junit:$version_junit"
     testImplementation "androidx.room:room-testing:$version_room"
