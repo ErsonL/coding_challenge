@@ -17,7 +17,10 @@ abstract class LoginDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: LoginDatabase? = null
 
-        val PREPOPULATE_DATA = Login("testUser", "abc#123", "Singapore")
+        val PREPOPULATE_DATA = Login("testUser1", "abc#123", "Singapore")
+        val PREPOPULATE_DATA1 = Login("testUser2", "cdf#789", "Japan")
+        val PREPOPULATE_DATA2 = Login("testUser3", "sdd#789", "Taiwan")
+
 
         fun getInstance(context: Context): LoginDatabase {
             synchronized(this) {
@@ -47,6 +50,8 @@ abstract class LoginDatabase : RoomDatabase() {
             ioThread {
                 if (db.loginDatabaseDao.getAllLogin().isEmpty()) {
                     db.loginDatabaseDao.insertLogin(PREPOPULATE_DATA)
+                    db.loginDatabaseDao.insertLogin(PREPOPULATE_DATA1)
+                    db.loginDatabaseDao.insertLogin(PREPOPULATE_DATA2)
                 }
             }
         }

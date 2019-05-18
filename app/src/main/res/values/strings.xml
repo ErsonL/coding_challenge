@@ -7,6 +7,7 @@
     <string name="password_hint">Password</string>
     <string name="log_in_label">Log In</string>
     <string name="field_error">Field can\'t be empty</string>
+    <string name="login_error">Login info is not correct</string>
 
 
 </resources>
