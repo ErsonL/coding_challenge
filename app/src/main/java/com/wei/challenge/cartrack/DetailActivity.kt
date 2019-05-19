@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.wei.challenge.cartrack.network.UsersApi
+import com.wei.challenge.cartrack.ui.MarginItemDecoration
 import com.wei.challenge.cartrack.ui.UsersAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -52,6 +53,7 @@ class DetailActivity : AppCompatActivity() {
         usersList.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = RecyclerView.VERTICAL
+        usersList.addItemDecoration(MarginItemDecoration(resources.getDimension(R.dimen.default_padding).toInt()))
         usersList.layoutManager = layoutManager
         usersAdapter = UsersAdapter {
             Timber.d("Ship:$it")

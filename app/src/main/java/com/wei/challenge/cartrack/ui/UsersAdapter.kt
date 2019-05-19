@@ -1,5 +1,6 @@
 package com.wei.challenge.cartrack.ui
 
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,13 +42,13 @@ class UsersAdapter(private val onItemClickListener: ((id: String) -> Unit)) : Re
         private val company: TextView = itemView.findViewById(R.id.company)
 
         fun bind(user: User) {
-            name.text = user.name
-            userName.text = user.username
-            email.text = user.email
-            address.text = user.address.toString()
-            phone.text = user.phone
-            website.text = user.website
-            company.text = user.company.toString()
+            name.text = Html.fromHtml("<b>Name:</b> ${user.name}")
+            userName.text = Html.fromHtml("<b>User Name:</b> ${user.username}")
+            email.text = Html.fromHtml("<b>Email:</b> ${user.email}")
+            address.text = Html.fromHtml("<b>Address:</b> ${user.address}")
+            phone.text = Html.fromHtml("<b>Phone:</b> ${user.phone}")
+            website.text = Html.fromHtml("<b>Website:</b> ${user.website}")
+            company.text = Html.fromHtml("<b>Company:</b> ${user.company}")
         }
     }
 

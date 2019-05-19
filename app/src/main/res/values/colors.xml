@@ -5,5 +5,7 @@
     <color name="colorAccent">#9A5034</color>
     <color name="color_input_hint">#1e000000</color>
     <color name="color_label">#ededed</color>
+    <color name="color_view_bg">#FF02A3FA</color>
+
 
 </resources>
