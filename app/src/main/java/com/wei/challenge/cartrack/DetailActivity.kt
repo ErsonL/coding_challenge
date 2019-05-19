@@ -4,7 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.wei.challenge.cartrack.network.ApiClient
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.wei.challenge.cartrack.network.UsersApi
+import com.wei.challenge.cartrack.ui.UsersAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -13,14 +16,19 @@ import timber.log.Timber
 class DetailActivity : AppCompatActivity() {
 
     private val usersApi by lazy {
-        ApiClient.create()
+        UsersApi.create()
     }
     private var disposable: Disposable? = null
+
+    private lateinit var usersList: RecyclerView
+    private lateinit var usersAdapter: UsersAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
+        setupRecyclerView()
         getUsers()
 
     }
@@ -32,11 +40,23 @@ class DetailActivity : AppCompatActivity() {
             .subscribe(
                 { result ->
                     Timber.d(result.toString())
-                    //setupRecycler(result)
+                    usersAdapter.setItems(result)
                 },
                 { error -> Timber.e("ERROR:"+ error.message) }
             )
 
+    }
+
+    private fun setupRecyclerView() {
+        usersList = findViewById(R.id.users_list)
+        usersList.setHasFixedSize(true)
+        val layoutManager = LinearLayoutManager(this)
+        layoutManager.orientation = RecyclerView.VERTICAL
+        usersList.layoutManager = layoutManager
+        usersAdapter = UsersAdapter {
+            Timber.d("Ship:$it")
+        }
+        usersList.adapter = usersAdapter
     }
 
     companion object {

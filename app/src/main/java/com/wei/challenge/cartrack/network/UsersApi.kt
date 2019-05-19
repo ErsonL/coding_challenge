@@ -9,14 +9,14 @@ import retrofit2.http.GET
 
 const val URL = "https://jsonplaceholder.typicode.com/"
 
-interface ApiClient {
+interface UsersApi {
 
     @GET("users")
     fun getUsers(): Observable<List<User>>
 
     companion object {
 
-        fun create(): ApiClient {
+        fun create(): UsersApi {
 
             val retrofit = Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -24,7 +24,7 @@ interface ApiClient {
                 .baseUrl(URL)
                 .build()
 
-            return retrofit.create(ApiClient::class.java)
+            return retrofit.create(UsersApi::class.java)
         }
     }
 

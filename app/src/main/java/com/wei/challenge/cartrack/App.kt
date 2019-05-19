@@ -19,8 +19,6 @@ class App : Application() {
         var appInternal : App? = null
         val app : App
             get() = appInternal!!
-
-
     }
 }
 

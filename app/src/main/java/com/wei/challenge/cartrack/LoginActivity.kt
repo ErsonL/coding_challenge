@@ -58,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun confirmInput() {
-
+        
         if (!validateUsername() or !validatePassword()) {
             return
         }

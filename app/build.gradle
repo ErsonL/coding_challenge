@@ -39,6 +39,7 @@ dependencies {
     // Material UI
     implementation "com.google.android.material:$version_material_design"
     implementation "androidx.constraintlayout:constraintlayout:$version_constraint_layout"
+    implementation "androidx.recyclerview:recyclerview:$version_recycler_view"
 
     // Room and Lifecycle dependencies
     implementation "androidx.room:room-runtime:$version_room"
@@ -49,7 +50,6 @@ dependencies {
 
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
-//    implementation "com.squareup.okhttp3:logging-interceptor:$version_logging_interceptor"
     implementation "com.squareup.retrofit2:converter-gson:$version_retrofit"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$version_retrofit"
     implementation "io.reactivex.rxjava2:rxandroid:$version_rxandroid"
