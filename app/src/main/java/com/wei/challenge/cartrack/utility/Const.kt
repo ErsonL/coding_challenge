@@ -1,4 +1,4 @@
-package com.wei.challenge.cartrack
+package com.wei.challenge.cartrack.utility
 
 const val LOGIN_DB_VERION = 1
 const val LOGIN_DB_NAME = "user_login_database.db"

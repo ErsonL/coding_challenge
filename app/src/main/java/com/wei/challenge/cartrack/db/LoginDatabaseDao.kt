@@ -4,7 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.wei.challenge.cartrack.LOGIN_TABLE_NAME
+import com.wei.challenge.cartrack.model.Login
+import com.wei.challenge.cartrack.utility.LOGIN_TABLE_NAME
 
 @Dao
 interface LoginDatabaseDao {

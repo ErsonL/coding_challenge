@@ -1,10 +1,10 @@
-package com.wei.challenge.cartrack.db
+package com.wei.challenge.cartrack.model
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.wei.challenge.cartrack.LOGIN_TABLE_NAME
+import com.wei.challenge.cartrack.utility.LOGIN_TABLE_NAME
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize

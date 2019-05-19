@@ -47,6 +47,14 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$version_lifecycle_extensions"
     implementation "androidx.room:room-rxjava2:$version_room"
 
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
+//    implementation "com.squareup.okhttp3:logging-interceptor:$version_logging_interceptor"
+    implementation "com.squareup.retrofit2:converter-gson:$version_retrofit"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$version_retrofit"
+    implementation "io.reactivex.rxjava2:rxandroid:$version_rxandroid"
+
+    implementation "com.jakewharton.timber:timber:$version_timber"
     implementation 'com.facebook.stetho:stetho:1.5.1'
 
     // Testing

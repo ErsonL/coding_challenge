@@ -4,8 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.wei.challenge.cartrack.LOGIN_DB_NAME
-import com.wei.challenge.cartrack.LOGIN_DB_VERION
+import com.wei.challenge.cartrack.model.Login
+import com.wei.challenge.cartrack.utility.LOGIN_DB_NAME
+import com.wei.challenge.cartrack.utility.LOGIN_DB_VERION
 import com.wei.challenge.cartrack.utility.ioThread
 
 @Database(entities = [Login::class], version = LOGIN_DB_VERION, exportSchema = false)
