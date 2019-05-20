@@ -24,9 +24,10 @@ class LoginActivityTest {
     fun successfulLogin() {
         val scenario =
             ActivityScenario.launch(LoginActivity::class.java)
-        onView(withId(R.id.user_input_edit)).perform(typeText("test_user"),closeSoftKeyboard())
+        onView(withId(R.id.user_input_edit)).perform(typeText("testUser1"),closeSoftKeyboard())
         onView(withId(R.id.password_input_edit))
-            .perform(typeText("correct_Password@23"),closeSoftKeyboard())
+            .perform(typeText("abc#123"),closeSoftKeyboard())
+
         onView(withId(R.id.login_btn)).perform(click())
 
         intended(hasComponent(DetailActivity::class.java.canonicalName))
