@@ -2,19 +2,26 @@ package com.wei.challenge.cartrack
 
 
 import android.os.Bundle
+import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
+import com.hbb20.CountryCodePicker
 import com.wei.challenge.cartrack.db.LoginDatabase
 import com.wei.challenge.cartrack.db.LoginDatabaseDao
 import com.wei.challenge.cartrack.utility.ioThread
 import com.wei.challenge.cartrack.utility.runMD5Hash
 
+
 class LoginActivity : AppCompatActivity() {
 
-    private var textInputUsername: TextInputLayout? = null
-    private var textInputPassword: TextInputLayout? = null
-    private var submitBtn: MaterialButton? = null
+    private lateinit var textInputUsername: TextInputLayout
+    private lateinit var textInputPassword: TextInputLayout
+    private lateinit var country: TextView
+    private lateinit var countryErrHint: TextView
+    private lateinit var submitBtn: MaterialButton
+    private lateinit var countryPicker: CountryCodePicker
 
     private lateinit var loginDao: LoginDatabaseDao
 
@@ -26,17 +33,23 @@ class LoginActivity : AppCompatActivity() {
 
         textInputUsername = findViewById(R.id.user_input)
         textInputPassword = findViewById(R.id.password_input)
+        country           = findViewById(R.id.country)
+        countryErrHint    = findViewById(R.id.countryErrHint)
         submitBtn         = findViewById(R.id.login_btn)
-        submitBtn?.setOnClickListener {
+        submitBtn.setOnClickListener {
             confirmInput()
         }
 
+        countryPicker = findViewById(R.id.ccp)
+        
     }
 
     override fun onDestroy() {
         LoginDatabase.destoryInstance()
         super.onDestroy()
     }
+
+
 
 
     private fun validateUsername():Boolean {
@@ -78,11 +91,15 @@ class LoginActivity : AppCompatActivity() {
         val passwordInput = runMD5Hash(textInputPassword!!.editText!!.text.toString().trim { it <= ' ' })
 
         ioThread {
-            var userLogin = loginDao.getLogin(usernameInput,passwordInput)
+            var userLogin = loginDao.getLogin(usernameInput,passwordInput,countryPicker.selectedCountryEnglishName)
             if(userLogin != null){
+                country.setTextColor(resources.getColor(R.color.color_country))
+                countryErrHint.visibility = View.INVISIBLE
                 DetailActivity.open(this)
             }else{
                 runOnUiThread {
+                    country.setTextColor(resources.getColor(R.color.color_error_hint))
+                    countryErrHint.visibility = View.VISIBLE
                     textInputUsername!!.error = getString(R.string.login_error)
                     textInputPassword!!.error = getString(R.string.login_error)
                 }

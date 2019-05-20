@@ -7,5 +7,9 @@
     <color name="color_label">#ededed</color>
     <color name="color_view_bg">#FF02A3FA</color>
 
+    <color name="color_error_hint">#F4511E</color>
+    <color name="color_country">#808080</color>
+
+
 
 </resources>

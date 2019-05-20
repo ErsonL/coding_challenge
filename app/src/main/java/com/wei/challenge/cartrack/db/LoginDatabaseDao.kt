@@ -12,8 +12,8 @@ interface LoginDatabaseDao {
     @Query("select * from $LOGIN_TABLE_NAME ORDER BY id DESC")
     fun getAllLogin(): List<Login>
 
-    @Query("SELECT * from $LOGIN_TABLE_NAME WHERE name = :name AND password = :password")
-    fun getLogin(name: String, password: String): Login?
+    @Query("SELECT * from $LOGIN_TABLE_NAME WHERE name = :name AND password = :password AND country = :country")
+    fun getLogin(name: String, password: String, country: String): Login?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertLogin(data: Login)

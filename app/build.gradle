@@ -40,7 +40,7 @@ dependencies {
     implementation "com.google.android.material:$version_material_design"
     implementation "androidx.constraintlayout:constraintlayout:$version_constraint_layout"
     implementation "androidx.recyclerview:recyclerview:$version_recycler_view"
-
+    implementation 'com.hbb20:ccp:2.2.9'
     // Room and Lifecycle dependencies
     implementation "androidx.room:room-runtime:$version_room"
     implementation "androidx.appcompat:appcompat:$version_appcompat"
