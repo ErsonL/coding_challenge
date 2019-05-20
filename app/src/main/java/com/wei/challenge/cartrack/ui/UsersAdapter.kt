@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.wei.challenge.cartrack.R
 import com.wei.challenge.cartrack.model.User
 
-class UsersAdapter(private val onItemClickListener: ((id: String) -> Unit)) : RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
+class UsersAdapter(private val onItemClickListener: ((position: Int) -> Unit)) : RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
 
     private var items = emptyList<User>()
 
@@ -18,6 +18,9 @@ class UsersAdapter(private val onItemClickListener: ((id: String) -> Unit)) : Re
         notifyDataSetChanged()
     }
 
+    fun getItems():List<User> {
+        return this.items
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.users_list_item, parent, false)
@@ -27,7 +30,7 @@ class UsersAdapter(private val onItemClickListener: ((id: String) -> Unit)) : Re
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.bind(item)
-        holder.itemView.setOnClickListener { onItemClickListener(item.id) }
+        holder.itemView.setOnClickListener { onItemClickListener(position) }
     }
 
     override fun getItemCount(): Int = items.count()

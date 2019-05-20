@@ -6,15 +6,25 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MarkerOptions
+import com.wei.challenge.cartrack.map.OnMapAndViewReadyListener
+import com.wei.challenge.cartrack.model.User
 import com.wei.challenge.cartrack.network.UsersApi
 import com.wei.challenge.cartrack.ui.MarginItemDecoration
 import com.wei.challenge.cartrack.ui.UsersAdapter
+import com.wei.challenge.cartrack.utility.animateCamera
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity(),
+    OnMapAndViewReadyListener.OnGlobalLayoutAndMapReadyListener{
 
     private val usersApi by lazy {
         UsersApi.create()
@@ -24,14 +34,45 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var usersList: RecyclerView
     private lateinit var usersAdapter: UsersAdapter
 
+    private lateinit var mMap: GoogleMap
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
+        val mapFragment = supportFragmentManager
+            .findFragmentById(R.id.map) as SupportMapFragment
+
+        OnMapAndViewReadyListener(mapFragment, this)
+
         setupRecyclerView()
         getUsers()
 
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+    }
+
+
+    private fun addMarkersToMap(users: List<User>) {
+
+        for (user in users){
+            mMap.addMarker(MarkerOptions()
+                    .position(LatLng(user.address.geo.lat.toDouble(), user.address.geo.lng.toDouble()))
+                    .title(user.name))
+        }
+
+    }
+
+    private fun setMapBound(result: List<User>) {
+        val bounds = LatLngBounds.Builder()
+        for(user in result){
+            bounds.include(LatLng(user.address.geo.lat.toDouble(),user.address.geo.lng.toDouble()))
+        }
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), 100))
     }
 
     private fun getUsers() {
@@ -42,11 +83,14 @@ class DetailActivity : AppCompatActivity() {
                 { result ->
                     Timber.d(result.toString())
                     usersAdapter.setItems(result)
+                    addMarkersToMap(result)
+                    setMapBound(result)
+
                 },
                 { error -> Timber.e("ERROR:"+ error.message) }
             )
-
     }
+
 
     private fun setupRecyclerView() {
         usersList = findViewById(R.id.users_list)
@@ -56,9 +100,17 @@ class DetailActivity : AppCompatActivity() {
         usersList.addItemDecoration(MarginItemDecoration(resources.getDimension(R.dimen.default_padding).toInt()))
         usersList.layoutManager = layoutManager
         usersAdapter = UsersAdapter {
-            Timber.d("Ship:$it")
+            locateToSpot(it)
         }
         usersList.adapter = usersAdapter
+    }
+
+    private fun locateToSpot(index: Int) {
+
+        if(usersAdapter.getItems()[index] != null){
+            val targetSpot = usersAdapter.getItems()[index].address.geo
+            animateCamera(mMap, LatLng(targetSpot.lat.toDouble(),targetSpot.lng.toDouble()))
+        }
     }
 
     companion object {

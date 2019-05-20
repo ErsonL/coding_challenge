@@ -1,5 +1,9 @@
 package com.wei.challenge.cartrack.utility
 
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
 import java.security.MessageDigest
 import java.util.concurrent.Executors
 
@@ -39,5 +43,14 @@ private fun byteArrayToHexString( array: Array<Byte> ): String {
     result.setLength(result.length - 1)
 
     return result.toString()
+}
+
+fun animateCamera(map: GoogleMap, location: LatLng) {
+    val latLng = LatLng(location.latitude, location.longitude)
+    map.animateCamera(CameraUpdateFactory.newCameraPosition(getCameraPositionWithBearing(latLng)))
+}
+
+private fun getCameraPositionWithBearing(latLng: LatLng): CameraPosition {
+    return CameraPosition.Builder().target(latLng).zoom(3f).build()
 }
 

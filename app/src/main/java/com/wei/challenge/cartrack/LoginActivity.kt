@@ -41,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         countryPicker = findViewById(R.id.ccp)
-        
+
     }
 
     override fun onDestroy() {
