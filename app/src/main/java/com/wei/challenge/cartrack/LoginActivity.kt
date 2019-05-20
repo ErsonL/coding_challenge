@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
 import com.wei.challenge.cartrack.db.LoginDatabase
+import com.wei.challenge.cartrack.db.LoginDatabaseDao
 import com.wei.challenge.cartrack.utility.ioThread
+import com.wei.challenge.cartrack.utility.runMD5Hash
 
 class LoginActivity : AppCompatActivity() {
 
@@ -14,14 +16,13 @@ class LoginActivity : AppCompatActivity() {
     private var textInputPassword: TextInputLayout? = null
     private var submitBtn: MaterialButton? = null
 
-    private val loginDao by lazy {
-        LoginDatabase.getInstance(application).loginDatabaseDao
-    }
-
+    private lateinit var loginDao: LoginDatabaseDao
 
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        loginDao = LoginDatabase.getInstance(application).loginDatabaseDao
 
         textInputUsername = findViewById(R.id.user_input)
         textInputPassword = findViewById(R.id.password_input)
@@ -30,6 +31,11 @@ class LoginActivity : AppCompatActivity() {
             confirmInput()
         }
 
+    }
+
+    override fun onDestroy() {
+        LoginDatabase.destoryInstance()
+        super.onDestroy()
     }
 
 
@@ -58,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun confirmInput() {
-        
+
         if (!validateUsername() or !validatePassword()) {
             return
         }
@@ -69,7 +75,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun isUseInLoginDb() {
         val usernameInput = textInputUsername!!.editText!!.text.toString().trim { it <= ' ' }
-        val passwordInput = textInputPassword!!.editText!!.text.toString().trim { it <= ' ' }
+        val passwordInput = runMD5Hash(textInputPassword!!.editText!!.text.toString().trim { it <= ' ' })
 
         ioThread {
             var userLogin = loginDao.getLogin(usernameInput,passwordInput)

@@ -8,6 +8,8 @@ import com.wei.challenge.cartrack.model.Login
 import com.wei.challenge.cartrack.utility.LOGIN_DB_NAME
 import com.wei.challenge.cartrack.utility.LOGIN_DB_VERION
 import com.wei.challenge.cartrack.utility.ioThread
+import com.wei.challenge.cartrack.utility.runMD5Hash
+import timber.log.Timber
 
 @Database(entities = [Login::class], version = LOGIN_DB_VERION, exportSchema = false)
 abstract class LoginDatabase : RoomDatabase() {
@@ -18,9 +20,9 @@ abstract class LoginDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: LoginDatabase? = null
 
-        val PREPOPULATE_DATA = Login("testUser1", "abc#123", "Singapore")
-        val PREPOPULATE_DATA1 = Login("testUser2", "cdf#789", "Japan")
-        val PREPOPULATE_DATA2 = Login("testUser3", "sdd#789", "Taiwan")
+        val PREPOPULATE_DATA = Login("testUser1", runMD5Hash("abc#123"), "Singapore")
+        val PREPOPULATE_DATA1 = Login("testUser2", runMD5Hash("cdf#789"), "Japan")
+        val PREPOPULATE_DATA2 = Login("testUser3", runMD5Hash("sdd#789"), "Taiwan")
 
 
         fun getInstance(context: Context): LoginDatabase {
@@ -35,8 +37,7 @@ abstract class LoginDatabase : RoomDatabase() {
             }
         }
 
-        private fun destoryInstance() {
-
+        fun destoryInstance() {
             INSTANCE = null
         }
 
@@ -50,6 +51,7 @@ abstract class LoginDatabase : RoomDatabase() {
         private fun populateInitialData(db: LoginDatabase) {
             ioThread {
                 if (db.loginDatabaseDao.getAllLogin().isEmpty()) {
+                    Timber.d("Insert prepopulate data")
                     db.loginDatabaseDao.insertLogin(PREPOPULATE_DATA)
                     db.loginDatabaseDao.insertLogin(PREPOPULATE_DATA1)
                     db.loginDatabaseDao.insertLogin(PREPOPULATE_DATA2)
