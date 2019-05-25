@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
 import com.hbb20.CountryCodePicker
-import com.wei.challenge.cartrack.db.LoginDatabase
-import com.wei.challenge.cartrack.db.LoginDatabaseDao
+import com.wei.challenge.cartrack.db.AppDatabase
+import com.wei.challenge.cartrack.db.LoginDao
 import com.wei.challenge.cartrack.utility.ioThread
 import com.wei.challenge.cartrack.utility.runMD5Hash
 
@@ -23,13 +23,13 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var submitBtn: MaterialButton
     private lateinit var countryPicker: CountryCodePicker
 
-    private lateinit var loginDao: LoginDatabaseDao
+    private lateinit var loginDao: LoginDao
 
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        loginDao = LoginDatabase.getInstance(application).loginDatabaseDao
+        loginDao = AppDatabase.getInstance(application).loginDao
 
         textInputUsername = findViewById(R.id.user_input)
         textInputPassword = findViewById(R.id.password_input)
@@ -45,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        LoginDatabase.destoryInstance()
+        AppDatabase.destoryInstance()
         super.onDestroy()
     }
 
@@ -53,13 +53,13 @@ class LoginActivity : AppCompatActivity() {
 
 
     private fun validateUsername():Boolean {
-        val usernameInput = textInputUsername!!.editText!!.text.toString().trim { it <= ' ' }
+        val usernameInput = textInputUsername.editText!!.text.toString().trim { it <= ' ' }
 
         return if (usernameInput.isEmpty()) {
-            textInputUsername!!.error = getString(R.string.field_error)
+            textInputUsername.error = getString(R.string.field_error)
             false
         } else {
-            textInputUsername!!.error = null
+            textInputUsername.error = null
             true
         }
     }
@@ -68,10 +68,10 @@ class LoginActivity : AppCompatActivity() {
         val passwordInput = textInputPassword!!.editText!!.text.toString().trim { it <= ' ' }
 
         return if (passwordInput.isEmpty()) {
-            textInputPassword!!.error = getString(R.string.field_error)
+            textInputPassword.error = getString(R.string.field_error)
             false
         } else {
-            textInputPassword!!.error = null
+            textInputPassword.error = null
             true
         }
     }
@@ -87,8 +87,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun isUseInLoginDb() {
-        val usernameInput = textInputUsername!!.editText!!.text.toString().trim { it <= ' ' }
-        val passwordInput = runMD5Hash(textInputPassword!!.editText!!.text.toString().trim { it <= ' ' })
+        val usernameInput = textInputUsername.editText!!.text.toString().trim { it <= ' ' }
+        val passwordInput = runMD5Hash(textInputPassword.editText!!.text.toString().trim { it <= ' ' })
 
         ioThread {
             var userLogin = loginDao.getLogin(usernameInput,passwordInput,countryPicker.selectedCountryEnglishName)
@@ -100,8 +100,8 @@ class LoginActivity : AppCompatActivity() {
                 runOnUiThread {
                     country.setTextColor(resources.getColor(R.color.color_error_hint))
                     countryErrHint.visibility = View.VISIBLE
-                    textInputUsername!!.error = getString(R.string.login_error)
-                    textInputPassword!!.error = getString(R.string.login_error)
+                    textInputUsername.error = getString(R.string.login_error)
+                    textInputPassword.error = getString(R.string.login_error)
                 }
             }
         }

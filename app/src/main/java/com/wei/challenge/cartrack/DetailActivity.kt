@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -14,14 +16,12 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.wei.challenge.cartrack.map.OnMapAndViewReadyListener
 import com.wei.challenge.cartrack.model.User
+import com.wei.challenge.cartrack.model.UserListViewModel
 import com.wei.challenge.cartrack.network.UsersApi
 import com.wei.challenge.cartrack.ui.MarginItemDecoration
 import com.wei.challenge.cartrack.ui.UsersAdapter
 import com.wei.challenge.cartrack.utility.animateCamera
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
+
 
 class DetailActivity : AppCompatActivity(),
     OnMapAndViewReadyListener.OnGlobalLayoutAndMapReadyListener{
@@ -29,7 +29,6 @@ class DetailActivity : AppCompatActivity(),
     private val usersApi by lazy {
         UsersApi.create()
     }
-    private var disposable: Disposable? = null
 
     private lateinit var usersList: RecyclerView
     private lateinit var usersAdapter: UsersAdapter
@@ -47,12 +46,24 @@ class DetailActivity : AppCompatActivity(),
         OnMapAndViewReadyListener(mapFragment, this)
 
         setupRecyclerView()
-        getUsers()
 
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        val model = ViewModelProviders.of(this).get(UserListViewModel::class.java)
+        model.getUsers()?.observe(this, Observer { users ->
+            usersAdapter.setItems(users)
+            if(users.isNotEmpty()){
+                addMarkersToMap(users)
+                setMapBound(users)
+            }
+        })
     }
 
 
@@ -74,23 +85,6 @@ class DetailActivity : AppCompatActivity(),
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), 100))
     }
-
-    private fun getUsers() {
-        disposable = usersApi.getUsers()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { result ->
-                    Timber.d(result.toString())
-                    usersAdapter.setItems(result)
-                    addMarkersToMap(result)
-                    setMapBound(result)
-
-                },
-                { error -> Timber.e("ERROR:"+ error.message) }
-            )
-    }
-
 
     private fun setupRecyclerView() {
         usersList = findViewById(R.id.users_list)

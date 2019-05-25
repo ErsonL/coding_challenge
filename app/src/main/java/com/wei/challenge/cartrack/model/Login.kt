@@ -23,7 +23,3 @@ data class Login(
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0L
 ): Parcelable
-
-
-
-

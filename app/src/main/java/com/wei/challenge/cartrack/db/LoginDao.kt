@@ -8,7 +8,7 @@ import com.wei.challenge.cartrack.model.Login
 import com.wei.challenge.cartrack.utility.LOGIN_TABLE_NAME
 
 @Dao
-interface LoginDatabaseDao {
+interface LoginDao {
     @Query("select * from $LOGIN_TABLE_NAME ORDER BY id DESC")
     fun getAllLogin(): List<Login>
 
