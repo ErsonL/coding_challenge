@@ -9,6 +9,7 @@ buildscript {
         version_appcompat = "1.1.0-alpha04"
         version_room = "2.0.0"
         version_lifecycle_extensions = "2.0.0"
+        version_paging = "2.1.0"
 
         //UI
         version_design = "2.0.0"

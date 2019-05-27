@@ -39,6 +39,10 @@ dependencies {
     // Android KTX
     implementation "androidx.core:core-ktx:$version_core"
 
+    //Page Lib
+    implementation "androidx.paging:paging-rxjava2:$version_paging"
+    implementation "androidx.paging:paging-runtime:$version_paging"
+
     // Material UI
     implementation "com.google.android.material:$version_material_design"
     implementation "androidx.constraintlayout:constraintlayout:$version_constraint_layout"

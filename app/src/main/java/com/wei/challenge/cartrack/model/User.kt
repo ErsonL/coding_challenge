@@ -33,8 +33,11 @@ data class User(
         val city: String,
         val zipcode: String,
         @Embedded(prefix = "geo_")
-        val geo: Geo
-    )
+        val geo: Geo){
+        override fun toString(): String {
+            return "$street, $suite, $city, $zipcode"
+        }
+    }
 
 
 

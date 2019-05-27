@@ -3,6 +3,7 @@ package com.wei.challenge.cartrack
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -17,7 +18,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.wei.challenge.cartrack.map.OnMapAndViewReadyListener
 import com.wei.challenge.cartrack.model.User
 import com.wei.challenge.cartrack.model.UserListViewModel
-import com.wei.challenge.cartrack.network.UsersApi
 import com.wei.challenge.cartrack.ui.MarginItemDecoration
 import com.wei.challenge.cartrack.ui.UsersAdapter
 import com.wei.challenge.cartrack.utility.animateCamera
@@ -26,12 +26,9 @@ import com.wei.challenge.cartrack.utility.animateCamera
 class DetailActivity : AppCompatActivity(),
     OnMapAndViewReadyListener.OnGlobalLayoutAndMapReadyListener{
 
-    private val usersApi by lazy {
-        UsersApi.create()
-    }
-
     private lateinit var usersList: RecyclerView
     private lateinit var usersAdapter: UsersAdapter
+    private lateinit var goPageList: Button
 
     private lateinit var mMap: GoogleMap
 
@@ -45,6 +42,10 @@ class DetailActivity : AppCompatActivity(),
 
         OnMapAndViewReadyListener(mapFragment, this)
 
+        goPageList = findViewById(R.id.goPageList)
+        goPageList.setOnClickListener {
+            PageListActivity.open(this)
+        }
         setupRecyclerView()
 
 
@@ -64,6 +65,7 @@ class DetailActivity : AppCompatActivity(),
                 setMapBound(users)
             }
         })
+
     }
 
 
@@ -100,9 +102,9 @@ class DetailActivity : AppCompatActivity(),
     }
 
     private fun locateToSpot(index: Int) {
-
-        if(usersAdapter.getItems()[index] != null){
-            val targetSpot = usersAdapter.getItems()[index].address.geo
+        val selectedItem = usersAdapter?.getItems()?.get(index)
+        if( selectedItem != null){
+            val targetSpot = selectedItem.address.geo
             animateCamera(mMap, LatLng(targetSpot.lat.toDouble(),targetSpot.lng.toDouble()))
         }
     }

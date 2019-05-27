@@ -6,8 +6,8 @@
         android:layout_height="match_parent"
         tools:context=".DetailActivity" android:orientation="vertical">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                 android:layout_width="match_parent"
+    <FrameLayout
+            android:layout_width="match_parent"
                  android:layout_height="0dp"
                  android:layout_weight="2"
                  android:id="@+id/frameLayout">
@@ -16,6 +16,14 @@
                 class="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
+        <Button
+                android:id="@+id/goPageList"
+                android:text="Go PageList"
+                android:layout_margin="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
     </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
