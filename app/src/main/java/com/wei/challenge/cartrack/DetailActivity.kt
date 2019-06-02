@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,9 +20,12 @@ import com.wei.challenge.cartrack.model.UserListViewModel
 import com.wei.challenge.cartrack.ui.MarginItemDecoration
 import com.wei.challenge.cartrack.ui.UsersAdapter
 import com.wei.challenge.cartrack.utility.animateCamera
+import com.wei.challenge.cartrack.viewmodel.ViewModelProviderFactory
+import dagger.android.support.DaggerAppCompatActivity
+import javax.inject.Inject
 
 
-class DetailActivity : AppCompatActivity(),
+class DetailActivity : DaggerAppCompatActivity(),
     OnMapAndViewReadyListener.OnGlobalLayoutAndMapReadyListener{
 
     private lateinit var usersList: RecyclerView
@@ -31,6 +33,10 @@ class DetailActivity : AppCompatActivity(),
     private lateinit var goPageList: Button
 
     private lateinit var mMap: GoogleMap
+
+
+    @Inject
+    lateinit var providerFactory: ViewModelProviderFactory
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,16 +54,13 @@ class DetailActivity : AppCompatActivity(),
         }
         setupRecyclerView()
 
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        val model = ViewModelProviders.of(this).get(UserListViewModel::class.java)
+        val model = ViewModelProviders.of(this, providerFactory).get(UserListViewModel::class.java)
+        //val model = ViewModelProviders.of(this).get(UserListViewModel::class.java)
+
         model.getUsers()?.observe(this, Observer { users ->
             usersAdapter.setItems(users)
             if(users.isNotEmpty()){

@@ -43,6 +43,17 @@ dependencies {
     implementation "androidx.paging:paging-rxjava2:$version_paging"
     implementation "androidx.paging:paging-runtime:$version_paging"
 
+
+    // Dagger2 core
+    implementation "com.google.dagger:dagger:$version_dagger"
+    annotationProcessor "com.google.dagger:dagger-compiler:$version_dagger"
+    kapt "com.google.dagger:dagger-compiler:$version_dagger"
+    kapt "com.google.dagger:dagger-android-processor:$version_dagger"
+    // Dagger Android
+    implementation "com.google.dagger:dagger-android:$version_dagger"
+    implementation "com.google.dagger:dagger-android-support:$version_dagger"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$version_dagger"
+
     // Material UI
     implementation "com.google.android.material:$version_material_design"
     implementation "androidx.constraintlayout:constraintlayout:$version_constraint_layout"

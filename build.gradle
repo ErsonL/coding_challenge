@@ -22,6 +22,9 @@ buildscript {
         //Network
         version_retrofit = "2.5.0"
 
+        //Dagger 2
+        version_dagger = "2.22"
+
         //RxJava
         version_rxkotlin = '2.3.0'
         version_rxjava2 = '2.2.8'

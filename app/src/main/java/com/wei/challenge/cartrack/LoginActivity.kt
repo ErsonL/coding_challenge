@@ -4,7 +4,6 @@ package com.wei.challenge.cartrack
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
 import com.hbb20.CountryCodePicker
@@ -12,9 +11,11 @@ import com.wei.challenge.cartrack.db.AppDatabase
 import com.wei.challenge.cartrack.db.LoginDao
 import com.wei.challenge.cartrack.utility.ioThread
 import com.wei.challenge.cartrack.utility.runMD5Hash
+import dagger.android.support.DaggerAppCompatActivity
+import javax.inject.Inject
 
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : DaggerAppCompatActivity() {
 
     private lateinit var textInputUsername: TextInputLayout
     private lateinit var textInputPassword: TextInputLayout
@@ -23,7 +24,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var submitBtn: MaterialButton
     private lateinit var countryPicker: CountryCodePicker
 
-    private lateinit var loginDao: LoginDao
+    @Inject
+    lateinit var loginDao: LoginDao
 
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)

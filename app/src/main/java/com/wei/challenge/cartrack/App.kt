@@ -1,26 +1,20 @@
 package com.wei.challenge.cartrack
 
-import android.app.Application
 import com.facebook.stetho.Stetho
+import com.wei.challenge.cartrack.di.DaggerAppComponent
+import dagger.android.AndroidInjector
+import dagger.android.support.DaggerApplication
 import timber.log.Timber
 
-class App : Application() {
+class App : DaggerApplication() {
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        return DaggerAppComponent.builder().application(this).build()
+    }
 
     override fun onCreate() {
         super.onCreate()
-        appInternal = this
         Timber.plant(Timber.DebugTree())
-        Stetho.initializeWithDefaults(this);
+        Stetho.initializeWithDefaults(this)
     }
 
-
-
-    companion object {
-        var appInternal : App? = null
-        val app : App
-            get() = appInternal!!
-    }
 }
-
-
-val app = App.app

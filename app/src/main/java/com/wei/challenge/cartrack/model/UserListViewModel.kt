@@ -2,17 +2,17 @@ package com.wei.challenge.cartrack.model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.wei.challenge.cartrack.app
 import com.wei.challenge.cartrack.data.UsersRepository
+import timber.log.Timber
+import javax.inject.Inject
 
 
-class UserListViewModel constructor() : ViewModel() {
-
-    private var repository: UsersRepository? = null
+class UserListViewModel @Inject constructor(private val repository: UsersRepository) : ViewModel() {
 
     init {
-        repository = UsersRepository.getInstance(app)
+        Timber.d( "UserListViewModel: viewmodel is working...")
     }
+
 
     fun getUsers(): LiveData<List<User>>? {
         return repository?.getUsers()
@@ -22,6 +22,5 @@ class UserListViewModel constructor() : ViewModel() {
         super.onCleared()
         repository?.destroy()
     }
-
 
 }

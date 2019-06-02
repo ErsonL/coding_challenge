@@ -6,4 +6,4 @@ const val LOGIN_TABLE_NAME = "login_table"
 const val USER_TABLE_NAME = "user_table"
 
 
-const val USERS_URL = "https://jsonplaceholder.typicode.com/"
+const val BASE_URL = "https://jsonplaceholder.typicode.com/"
